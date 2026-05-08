@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4RAP.GEN — Editor článků</title>
+
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9SBN9C5869"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9SBN9C5869');
+  function gaEvent(name, params) { if(typeof gtag!=='undefined') gtag('event', name, params); }
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--y:#FFD800;--b:#000;--w:#fff;--r:#FF4A4A;--g:#39FF14;--bl:#00BFFF;--bg:#FFDE00}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);background-image:radial-gradient(rgba(0,0,0,.12) 2px,transparent 2px);background-size:24px 24px;color:#000;min-height:100vh}
+.neo{border:4px solid #000}.neo-s{box-shadow:8px 8px 0 #000}
+h1,h2,h3,.hd{font-family:'Archivo Black',sans-serif;text-transform:uppercase}
+header{background:#000;color:#fff;padding:.9rem 1.5rem;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #000;position:sticky;top:0;z-index:100;gap:1rem;flex-wrap:wrap}
+header h1{font-size:1.7rem;letter-spacing:-.03em;color:#fff;cursor:pointer}
+header h1 span{color:#39FF14}
+.header-right{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.header-sub{color:#FFD800;font-weight:700;font-size:.85rem}
+.credit-bar{background:#111;border:2px solid #333;padding:.3rem .7rem;font-size:.75rem;font-weight:700;color:#39FF14;white-space:nowrap}
+.app{display:grid;grid-template-columns:270px 1fr;min-height:calc(100vh - 60px)}
+.sidebar{background:#fff;border-right:4px solid #000;padding:1rem;display:flex;flex-direction:column;gap:.65rem;overflow-y:auto;max-height:calc(100vh - 60px)}
+.sb-title{font-family:'Archivo Black',sans-serif;font-size:.75rem;text-transform:uppercase;padding:.4rem 0;border-bottom:3px solid #000;margin-bottom:.15rem}
+.art-item{border:3px solid #000;padding:.55rem .7rem;cursor:pointer;background:#fff;transition:all .1s}
+.art-item:hover,.art-item.active{background:#FFD800;box-shadow:4px 4px 0 #000;transform:translate(-2px,-2px)}
+.art-item .it{font-weight:700;font-size:.88rem;line-height:1.3}
+.art-item .im{font-size:.72rem;color:#666;margin-top:.2rem;display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+.badge{display:inline-block;padding:.1rem .4rem;font-size:.68rem;font-weight:700;text-transform:uppercase;border:2px solid #000}
+.bR{background:#FF4A4A;color:#fff}.bN{background:#39FF14;color:#000}.bC{background:#00BFFF;color:#000}
+.bk{background:#eee;color:#555}.bp{background:#39FF14;color:#000}
+.btn{border:4px solid #000;padding:.55rem .9rem;font-family:'Archivo Black',sans-serif;font-size:.82rem;text-transform:uppercase;cursor:pointer;background:#fff;box-shadow:5px 5px 0 #000;transition:all .1s;display:flex;align-items:center;gap:.4rem;justify-content:center;width:100%}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 #000}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 #000}
+.bb{background:#000;color:#fff}.by{background:#FFD800}.br{background:#FF4A4A;color:#fff}.bg{background:#39FF14}
+.bs{padding:.38rem .7rem;font-size:.73rem;box-shadow:3px 3px 0 #000;width:auto}
+.bs:hover{box-shadow:5px 5px 0 #000}
+.main{padding:1.25rem;display:flex;flex-direction:column;gap:.9rem;overflow-y:auto;max-height:calc(100vh - 60px)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.f{display:flex;flex-direction:column;gap:.25rem}
+.f label{font-family:'Archivo Black',sans-serif;font-size:.72rem;text-transform:uppercase}
+.f input,.f select,.f textarea{border:3px solid #000;padding:.45rem .7rem;font-family:'Space Grotesk',sans-serif;font-size:.93rem;font-weight:500;background:#fff;width:100%;outline:none;transition:box-shadow .1s}
+.f input:focus,.f select:focus,.f textarea:focus{box-shadow:4px 4px 0 #000}
+.ea{border:4px solid #000;background:#fff}
+.et{background:#000;padding:.45rem .7rem;display:flex;gap:.45rem;flex-wrap:wrap;align-items:center}
+.tb{background:transparent;border:2px solid #555;color:#fff;padding:.18rem .45rem;font-size:.73rem;font-weight:700;cursor:pointer;text-transform:uppercase;transition:all .1s}
+.tb:hover{background:#FFD800;color:#000;border-color:#FFD800}
+#ce{width:100%;min-height:390px;padding:1rem;font-family:'Space Grotesk',sans-serif;font-size:.93rem;line-height:1.75;border:none;resize:vertical;background:#fff;outline:none;font-weight:500}
+.sp{border:4px solid #000;background:#fff;padding:1rem}
+.sg{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem;margin-bottom:.65rem}
+.si{text-align:center;border:3px solid #000;padding:.35rem .2rem}
+.si .sv{font-family:'Archivo Black',sans-serif;font-size:1.35rem}
+.si .sl{font-size:.62rem;font-weight:700;text-transform:uppercase}
+.st{font-family:'Archivo Black',sans-serif;font-size:1.9rem}
+.sf{font-size:.88rem;font-weight:500;line-height:1.6;color:#333;margin-top:.45rem}
+.vp{color:#16a34a}.vr{color:#dc2626}
+.acts{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center}
+.uz{border:4px dashed #000;padding:1.25rem;text-align:center;background:#fff;cursor:pointer;transition:all .1s}
+.uz:hover{background:#FFD800}
+.uz p{font-weight:700;font-size:.88rem}.uz .sub{font-size:.78rem;color:#666;margin-top:.25rem}
+.stbar{background:#000;color:#fff;padding:.45rem 1rem;font-size:.83rem;font-weight:700;display:flex;align-items:center;gap:.5rem}
+.stbar.ok{background:#16a34a}.stbar.err{background:#dc2626}.stbar.ld{background:#1d4ed8}
+.hidden{display:none!important}
+.tabs{display:flex;gap:0;border-bottom:4px solid #000}
+.tab{padding:.55rem 1.1rem;font-family:'Archivo Black',sans-serif;font-size:.78rem;text-transform:uppercase;cursor:pointer;border:4px solid #000;border-bottom:none;margin-bottom:-4px;background:#eee;margin-right:-4px}
+.tab.active{background:#fff;position:relative;z-index:1}
+.tc{display:none}.tc.active{display:block}
+.pa{border:4px solid #000;background:#fff;padding:1.25rem;min-height:280px}
+.pa h2{font-family:'Archivo Black',sans-serif;font-size:1.25rem;text-transform:uppercase;border-bottom:4px solid #000;padding-bottom:.35rem;margin:1.4rem 0 .55rem}
+.pa h3{font-family:'Archivo Black',sans-serif;font-size:.98rem;text-transform:uppercase;margin:1.1rem 0 .35rem}
+.pa p{font-size:1rem;line-height:1.85;margin-bottom:.85rem;font-weight:500}
+.pa ul{padding-left:1.4rem;margin-bottom:.85rem}
+.pa li{font-size:.93rem;line-height:1.75;font-weight:500;margin-bottom:.2rem}
+.pa strong{font-weight:900}.pa em{font-style:italic}
+.pa blockquote{border-left:5px solid #000;background:#FFD800;padding:.7rem 1rem;margin:.9rem 0;font-weight:700}
+.pa table{width:100%;border-collapse:collapse;margin:.9rem 0}
+.pa th{background:#000;color:#FFD800;font-family:'Archivo Black',sans-serif;font-size:.78rem;text-transform:uppercase;padding:.45rem .7rem;text-align:left;border:3px solid #000}
+.pa td{border:3px solid #000;padding:.4rem .7rem;font-size:.9rem;font-weight:500}
+.pa tr:nth-child(even) td{background:#fffbe6}
+.pa hr{border:none;border-top:4px solid #000;margin:1.4rem 0}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.cp{border:4px solid #000;background:#fff;padding:1rem}
+.cp .ct{font-family:'Archivo Black',sans-serif;font-size:.78rem;text-transform:uppercase;border-bottom:3px solid #000;padding-bottom:.35rem;margin-bottom:.65rem}
+.cps{font-family:'Archivo Black',sans-serif;font-size:2.3rem}
+.cb{height:8px;background:#eee;border:2px solid #000;margin:.28rem 0}
+.cf{height:100%}
+.cl{font-size:.73rem;font-weight:700;display:flex;justify-content:space-between}
+
+/* SETTINGS PANEL */
+.settings-panel{border:4px solid #000;background:#fff;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.settings-panel h3{font-family:'Archivo Black',sans-serif;font-size:.9rem;text-transform:uppercase;border-bottom:3px solid #000;padding-bottom:.4rem}
+.llm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.llm-card{border:3px solid #000;padding:.65rem;display:flex;flex-direction:column;gap:.4rem;cursor:pointer;transition:all .1s}
+.llm-card.selected{background:#FFD800;box-shadow:4px 4px 0 #000}
+.llm-card .lname{font-family:'Archivo Black',sans-serif;font-size:.82rem;text-transform:uppercase}
+.llm-card .ldesc{font-size:.72rem;color:#555;font-weight:600}
+.llm-card .lfree{font-size:.68rem;font-weight:700;color:#16a34a;text-transform:uppercase}
+
+/* CREDIT LOG */
+.credit-log{border:4px solid #000;background:#fff;max-height:320px;overflow-y:auto}
+.cl-header{background:#000;color:#FFD800;font-family:'Archivo Black',sans-serif;font-size:.75rem;text-transform:uppercase;padding:.45rem .75rem;display:grid;grid-template-columns:1fr 80px 80px 80px 90px;gap:.5rem}
+.cl-row{border-bottom:2px solid #eee;padding:.4rem .75rem;font-size:.78rem;font-weight:600;display:grid;grid-template-columns:1fr 80px 80px 80px 90px;gap:.5rem;align-items:center}
+.cl-row:nth-child(even){background:#fafafa}
+.cl-row:hover{background:#fffbe6}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{display:inline-block;width:13px;height:13px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{max-height:200px}.fg{grid-template-columns:1fr}.sg{grid-template-columns:repeat(3,1fr)}.cg{grid-template-columns:1fr}.llm-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1 onclick="location.reload()"><span>#</span>4RAP.GEN</h1>
+  <div class="header-right">
+    <span class="header-sub" id="llmIndicator">🤖 Gemini Flash (free)</span>
+    <div class="credit-bar" id="creditBar" title="Kredity spotřebované tímto sessionem">💳 0 msg · 0 integ.</div>
+    <button class="btn bs bb" onclick="switchTab('settings')" style="width:auto">⚙️ Nastavení</button>
+  </div>
+</header>
+
+<div id="statusBar" class="stbar hidden"></div>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <button class="btn bb" onclick="newArticle()">＋ Nový článek</button>
+    <input type="text" id="searchInput" placeholder="Hledat..." oninput="renderList()"
+      style="border:3px solid #000;padding:.45rem .7rem;width:100%;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;outline:none">
+    <div style="display:flex;gap:.35rem;flex-wrap:wrap">
+      <button class="btn bs bb" id="fAll" onclick="filterStatus('')">Vše</button>
+      <button class="btn bs" id="fK" onclick="filterStatus('koncept')">Koncepty</button>
+      <button class="btn bs" id="fP" onclick="filterStatus('pub')">Pub.</button>
+    </div>
+    <div style="border-top:3px solid #000;padding-top:.45rem">
+      <div class="sb-title">Články (<span id="artCount">0</span>)</div>
+      <div id="artList"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('editor')">✏️ Editor</div>
+      <div class="tab" onclick="switchTab('preview')">👁 Náhled</div>
+      <div class="tab" onclick="switchTab('import')">📥 Import</div>
+      <div class="tab" onclick="switchTab('compare')">⚖️ Porovnat</div>
+      <div class="tab" onclick="switchTab('credits')">💳 Kredity</div>
+      <div class="tab" onclick="switchTab('settings')">⚙️ API</div>
+    </div>
+
+    <!-- ── EDITOR ── -->
+    <div id="tab-editor" class="tc active">
+      <div class="fg">
+        <div class="f" style="grid-column:span 2">
+          <label>Název článku</label>
+          <input type="text" id="fTitle" placeholder="Např. Eminem: Bůh slova a jeho cesta zpět" oninput="autoSlug()">
+        </div>
+        <div class="f"><label>Slug (URL)</label><input type="text" id="fSlug" placeholder="eminem-buh-slova"></div>
+        <div class="f"><label>Kategorie</label>
+          <select id="fCat"><option value="Rapeři">Rapeři</option><option value="Návody">Návody</option><option value="Články">Články</option></select>
+        </div>
+        <div class="f"><label>Datum</label><input type="date" id="fDate"></div>
+        <div class="f"><label>Autor</label><input type="text" id="fAuthor" value="Rap Reportér"></div>
+        <div class="f" style="grid-column:span 2">
+          <label>Excerpt <span id="excerptLen" style="color:#888;font-weight:600;font-size:.7rem">0/160</span></label>
+          <input type="text" id="fExcerpt" placeholder="Krátký popis pro SEO" maxlength="160" oninput="document.getElementById('excerptLen').textContent=this.value.length+'/160'">
+        </div>
+        <div class="f"><label>Tagy (čárkou)</label><input type="text" id="fTags" placeholder="rapeři, usa, legenda"></div>
+        <div class="f"><label>Status</label>
+          <select id="fStatus"><option value="koncept">Koncept</option><option value="publikováno">Publikováno</option></select>
+        </div>
+      </div>
+
+      <div class="ea">
+        <div class="et">
+          <span style="color:#888;font-size:.72rem;font-weight:700;text-transform:uppercase;margin-right:.2rem">MD:</span>
+          <button class="tb" onclick="ins('## ','')">H2</button>
+          <button class="tb" onclick="ins('### ','')">H3</button>
+          <button class="tb" onclick="ins('**','**')"><b>B</b></button>
+          <button class="tb" onclick="ins('*','*')"><i>I</i></button>
+          <button class="tb" onclick="ins('> ','')">Quote</button>
+          <button class="tb" onclick="ins('---\n','')">HR</button>
+          <button class="tb" onclick="insTable()">Table</button>
+          <button class="tb" onclick="ins('- ','')">List</button>
+          <span style="flex:1"></span>
+          <span id="wc" style="color:#888;font-size:.73rem;font-weight:700"></span>
+        </div>
+        <textarea id="ce" placeholder="Piš článek v Markdown..." oninput="updateWC()"></textarea>
+      </div>
+
+      <div class="acts">
+        <button class="btn by" onclick="saveArt()" style="flex:1">💾 Uložit</button>
+        <button class="btn" onclick="evalArt()" style="flex:1">🤖 AI hodnocení</button>
+        <button class="btn bb" onclick="pubGH()" style="flex:1">🚀 GitHub</button>
+        <button class="btn bs" onclick="exportMdx()">⬇️ .mdx</button>
+        <button class="btn bs br" onclick="delArt()">🗑</button>
+      </div>
+
+      <div id="scorePanel" class="sp hidden">
+        <div style="font-family:'Archivo Black',sans-serif;font-size:.83rem;text-transform:uppercase;margin-bottom:.65rem;display:flex;justify-content:space-between;align-items:center">
+          <span>🤖 AI Hodnocení (<span id="scoreLLM" style="color:#666"></span>)</span>
+          <span id="scoreVerdict" style="font-size:.95rem"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.65rem">
+          <span class="st" id="scoreTotal">—</span>
+          <div id="scoreFeedback" class="sf" style="flex:1"></div>
+        </div>
+        <div class="sg" id="scoreGrid"></div>
+        <div id="scoreImpr" style="margin-top:.45rem;font-size:.83rem;font-weight:600"></div>
+        <div id="scoreCost" style="margin-top:.5rem;font-size:.73rem;color:#888;font-weight:700;border-top:2px solid #eee;padding-top:.4rem"></div>
+      </div>
+    </div>
+
+    <!-- ── PREVIEW ── -->
+    <div id="tab-preview" class="tc">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem">
+        <span class="hd" style="font-size:.83rem">Náhled MDX</span>
+        <button class="btn bs" onclick="renderPrev()">🔄 Obnovit</button>
+      </div>
+      <div id="prevArea" class="pa"></div>
+    </div>
+
+    <!-- ── IMPORT ── -->
+    <div id="tab-import" class="tc">
+      <div class="uz" id="dropZ" onclick="document.getElementById('fi').click()"
+        ondragover="event.preventDefault();this.style.background='#FFD800'"
+        ondragleave="this.style.background='#fff'"
+        ondrop="handleDrop(event)">
+        <p>📂 Klikni nebo přetáhni .mdx / .md soubor</p>
+        <p class="sub">Frontmatter + obsah se načtou automaticky</p>
+      </div>
+      <input type="file" id="fi" accept=".mdx,.md" class="hidden" onchange="handleFI(event)">
+      <div id="importPrev" class="hidden" style="margin-top:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem">
+          <span class="hd" style="font-size:.83rem">Náhled importu</span>
+          <div style="display:flex;gap:.5rem">
+            <button class="btn bs" onclick="evalImported()">🤖 Ohodnotit</button>
+            <button class="btn bs bb" onclick="applyImport()">✅ Do editoru</button>
+          </div>
+        </div>
+        <div id="importContent" style="border:4px solid #000;background:#fff;padding:1rem;font-family:monospace;font-size:.78rem;line-height:1.55;white-space:pre-wrap;max-height:360px;overflow-y:auto"></div>
+        <div id="importScore" class="sp hidden" style="margin-top:.85rem"></div>
+      </div>
+    </div>
+
+    <!-- ── COMPARE ── -->
+    <div id="tab-compare" class="tc">
+      <p style="font-weight:700;margin-bottom:.85rem">Porovnej dva články pomocí AI hodnocení.</p>
+      <div style="display:flex;gap:.65rem;align-items:flex-end;margin-bottom:.85rem;flex-wrap:wrap">
+        <div class="f" style="flex:1;min-width:170px"><label>Článek A</label>
+          <select id="cmpA" style="border:3px solid #000;padding:.45rem;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;width:100%"></select></div>
+        <div class="f" style="flex:1;min-width:170px"><label>Článek B</label>
+          <select id="cmpB" style="border:3px solid #000;padding:.45rem;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:600;width:100%"></select></div>
+        <button class="btn bs bb" onclick="runCmp()" style="white-space:nowrap">⚖️ Porovnat</button>
+      </div>
+      <div id="cmpResult" class="cg hidden"></div>
+    </div>
+
+    <!-- ── CREDITS ── -->
+    <div id="tab-credits" class="tc">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem;flex-wrap:wrap;gap:.5rem">
+        <span class="hd" style="font-size:.9rem">📊 Credit Log</span>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn bs" onclick="exportCredits()">⬇️ Export CSV</button>
+          <button class="btn bs br" onclick="clearCredits()">🗑 Vymazat</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:1rem" id="creditSummary"></div>
+      <div class="credit-log">
+        <div class="cl-header">
+          <span>Článek</span><span>LLM</span><span>Akce</span><span>Msg kr.</span><span>Čas</span>
+        </div>
+        <div id="creditTable"></div>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div id="tab-settings" class="tc">
+      <div class="settings-panel">
+        <div>
+          <h3>🤖 LLM Provider</h3>
+          <p style="font-size:.83rem;font-weight:600;color:#555;margin:.4rem 0 .75rem">Vyber model pro AI hodnocení. Gemini Flash je zdarma — doporučeno.</p>
+          <div class="llm-grid" id="llmGrid"></div>
+        </div>
+
+        <div>
+          <h3>🔑 API Klíče</h3>
+          <p style="font-size:.83rem;font-weight:600;color:#555;margin:.4rem 0 .75rem">Klíče jsou uloženy pouze v tvém prohlížeči (localStorage). Nikdy neopouští tvůj počítač.</p>
+          <div class="fg">
+            <div class="f">
+              <label>Google Gemini API Key <span style="color:#16a34a;font-weight:700">(zdarma)</span></label>
+              <input type="password" id="keyGemini" placeholder="AIza..." oninput="saveKey('gemini',this.value)">
+            </div>
+            <div class="f">
+              <label>OpenAI API Key</label>
+              <input type="password" id="keyOpenAI" placeholder="sk-..." oninput="saveKey('openai',this.value)">
+            </div>
+            <div class="f">
+              <label>Anthropic Claude API Key</label>
+              <input type="password" id="keyClaude" placeholder="sk-ant-..." oninput="saveKey('claude',this.value)">
+            </div>
+            <div class="f">
+              <label>Ollama URL <span style="color:#888">(lokální)</span></label>
+              <input type="text" id="keyOllama" placeholder="http://localhost:11434" oninput="saveKey('ollama',this.value)">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3>🚀 GitHub Publikování</h3>
+          <div class="fg">
+            <div class="f">
+              <label>GitHub Token (PAT)</label>
+              <input type="password" id="keyGH" placeholder="ghp_..." oninput="saveKey('gh_token',this.value)">
+            </div>
+            <div class="f">
+              <label>Repozitář (owner/repo)</label>
+              <input type="text" id="cfgRepo" placeholder="Peter-Pix/czech-rap-media" oninput="saveKey('gh_repo',this.value)">
+            </div>
+            <div class="f">
+              <label>Branch</label>
+              <input type="text" id="cfgBranch" placeholder="main" oninput="saveKey('gh_branch',this.value)">
+            </div>
+            <div class="f">
+              <label>Content path</label>
+              <input type="text" id="cfgPath" placeholder="content/articles" oninput="saveKey('gh_path',this.value)">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3>🔗 Fallback API (Base44)</h3>
+          <p style="font-size:.83rem;font-weight:600;color:#555;margin:.4rem 0 .75rem">Záložní endpoint pokud nemáš vlastní LLM klíč. Používá Base44 messaging kredity.</p>
+          <div class="f">
+            <label>Base44 Evaluate URL</label>
+            <input type="text" id="cfgB44" value="https://soul-goodman-copy-8d1113da.base44.app/functions/evaluateArticle" oninput="saveKey('b44_url',this.value)">
+          </div>
+        </div>
+
+        <button class="btn bb" onclick="saveAllSettings()">💾 Uložit nastavení</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// STATE & CONFIG
+// ═══════════════════════════════════════════════════════════════
+const SK = '4rg_v3';
+const CK = '4rg_credits';
+const KK = '4rg_keys';
+
+let articles = [];
+let credits  = [];   // [{id, title, llm, action, msg_credits, time}]
+let keys     = {};
+let curId    = null;
+let filterV  = '';
+let importedData = null;
+
+// Session credit counter (UI only — no real Base44 credit tracking here)
+let sessionMsg = 0;
+let sessionInteg = 0;
+
+// LLM definitions
+const LLMS = [
+  { id: 'gemini-flash', name: 'Gemini 2.0 Flash', desc: 'Google — 1M tokenů/den zdarma', free: true, color: '#4285F4' },
+  { id: 'gemini-pro',   name: 'Gemini 1.5 Pro',   desc: 'Google — 50 req/den zdarma',    free: true, color: '#34A853' },
+  { id: 'gpt4o',        name: 'GPT-4o',            desc: 'OpenAI — placený',              free: false, color: '#10a37f' },
+  { id: 'claude',       name: 'Claude 3.5 Sonnet', desc: 'Anthropic — placený',           free: false, color: '#c96442' },
+  { id: 'ollama',       name: 'Ollama (lokální)',   desc: 'Llama3, Mistral atd.',          free: true, color: '#6366f1' },
+  { id: 'b44',          name: 'Base44 Fallback',    desc: 'Používá messaging kredity',     free: false, color: '#ef4444' },
+];
+
+let selectedLLM = 'gemini-flash';
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+function loadAll() {
+  try { articles = JSON.parse(localStorage.getItem(SK) || '[]'); } catch { articles = []; }
+  try { credits  = JSON.parse(localStorage.getItem(CK) || '[]'); } catch { credits  = []; }
+  try { keys     = JSON.parse(localStorage.getItem(KK) || '{}'); } catch { keys     = {}; }
+  selectedLLM = keys.selected_llm || 'gemini-flash';
+}
+function saveArts()    { localStorage.setItem(SK, JSON.stringify(articles)); }
+function saveCreds()   { localStorage.setItem(CK, JSON.stringify(credits)); }
+function saveKeys()    { localStorage.setItem(KK, JSON.stringify(keys)); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadAll();
+  document.getElementById('fDate').value = today();
+  renderLLMGrid();
+  fillSettings();
+  renderList();
+  renderCreditTable();
+  updateCreditBar();
+  if (articles.length > 0) loadArt(articles[0].id);
+});
+
+function today() { return new Date().toISOString().split('T')[0]; }
+
+// ═══════════════════════════════════════════════════════════════
+// LLM GRID
+// ═══════════════════════════════════════════════════════════════
+function renderLLMGrid() {
+  document.getElementById('llmGrid').innerHTML = LLMS.map(l => `
+    <div class="llm-card ${l.id === selectedLLM ? 'selected' : ''}" onclick="selectLLM('${l.id}')">
+      <div class="lname" style="color:${l.color}">${l.name}</div>
+      <div class="ldesc">${l.desc}</div>
+      ${l.free ? '<div class="lfree">✓ ZDARMA</div>' : '<div style="font-size:.68rem;color:#dc2626;font-weight:700;text-transform:uppercase">Placený</div>'}
+    </div>`).join('');
+  const llm = LLMS.find(l => l.id === selectedLLM);
+  document.getElementById('llmIndicator').textContent = '🤖 ' + (llm ? llm.name + (llm.free ? ' (free)' : '') : '?');
+}
+
+function selectLLM(id) {
+  selectedLLM = id;
+  keys.selected_llm = id;
+  saveKeys();
+  renderLLMGrid();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════════════
+function saveKey(k, v) { keys[k] = v; saveKeys(); }
+
+function fillSettings() {
+  const f = (id, k, def='') => { const el = document.getElementById(id); if (el) el.value = keys[k] || def; };
+  f('keyGemini',  'gemini');
+  f('keyOpenAI',  'openai');
+  f('keyClaude',  'claude');
+  f('keyOllama',  'ollama',  'http://localhost:11434');
+  f('keyGH',      'gh_token');
+  f('cfgRepo',    'gh_repo',   'Peter-Pix/czech-rap-media');
+  f('cfgBranch',  'gh_branch', 'main');
+  f('cfgPath',    'gh_path',   'content/articles');
+  f('cfgB44',     'b44_url',   'https://soul-goodman-copy-8d1113da.base44.app/functions/evaluateArticle');
+}
+
+function saveAllSettings() {
+  ['keyGemini','keyOpenAI','keyClaude','keyOllama','keyGH','cfgRepo','cfgBranch','cfgPath','cfgB44'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      const keyMap = {keyGemini:'gemini',keyOpenAI:'openai',keyClaude:'claude',keyOllama:'ollama',keyGH:'gh_token',cfgRepo:'gh_repo',cfgBranch:'gh_branch',cfgPath:'gh_path',cfgB44:'b44_url'};
+      keys[keyMap[id]] = el.value;
+    }
+  });
+  saveKeys();
+  setStatus('✅ Nastavení uloženo', 'ok', 2000);
+  gaEvent('settings_saved', { llm: selectedLLM });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ARTICLE LIST
+// ═══════════════════════════════════════════════════════════════
+function renderList() {
+  loadAll();
+  const q = (document.getElementById('searchInput').value || '').toLowerCase();
+  const catCls = { 'Rapeři':'R','Návody':'N','Články':'C' };
+  const filtered = articles.filter(a => {
+    const mq = !q || (a.title||'').toLowerCase().includes(q) || (a.tags||'').toLowerCase().includes(q);
+    const ms = !filterV || (filterV==='pub' ? a.status==='publikováno' : a.status==='koncept');
+    return mq && ms;
+  });
+  document.getElementById('artCount').textContent = filtered.length;
+  document.getElementById('artList').innerHTML = filtered.length === 0
+    ? '<p style="font-size:.83rem;color:#666;font-weight:600;padding:.45rem 0">Žádné články.</p>'
+    : filtered.map(a => `
+      <div class="art-item ${a.id===curId?'active':''}" onclick="loadArt('${a.id}')">
+        <div class="it">${a.title||'(bez názvu)'}</div>
+        <div class="im">
+          <span class="badge b${catCls[a.category]||'R'}">${a.category||'?'}</span>
+          <span class="badge ${a.status==='publikováno'?'bp':'bk'}">${a.status||'koncept'}</span>
+          ${a.score!=null?`<span style="font-size:.7rem;font-weight:900;color:${a.score>=20?'#16a34a':'#dc2626'}">${a.score}/25</span>`:''}
+          ${a.github_committed?'<span style="font-size:.7rem;font-weight:700;color:#6366f1">✓GH</span>':''}
+        </div>
+      </div>`).join('');
+}
+
+function filterStatus(s) { filterV=s; renderList(); }
+
+// ═══════════════════════════════════════════════════════════════
+// ARTICLE CRUD
+// ═══════════════════════════════════════════════════════════════
+function newArticle() {
+  loadAll();
+  const id = 'a' + Date.now();
+  articles.unshift({ id, title:'', slug:'', excerpt:'', content:'', category:'Rapeři', tags:'', author:'Rap Reportér', date:today(), status:'koncept' });
+  saveArts();
+  loadArt(id);
+  gaEvent('article_new');
+}
+
+function loadArt(id) {
+  loadAll();
+  const a = articles.find(x=>x.id===id);
+  if (!a) return;
+  curId = id;
+  set('fTitle', a.title||''); set('fSlug', a.slug||''); set('fExcerpt', a.excerpt||'');
+  document.getElementById('fCat').value = a.category||'Rapeři';
+  set('fTags', a.tags||''); set('fAuthor', a.author||'Rap Reportér');
+  document.getElementById('fDate').value = a.date||today();
+  document.getElementById('fStatus').value = a.status||'koncept';
+  document.getElementById('ce').value = a.content||'';
+  updateWC();
+  document.getElementById('excerptLen').textContent = (a.excerpt||'').length+'/160';
+  renderList();
+  if (a.score!=null) {
+    try { showScore(JSON.parse(a.score_bd||'{}'), a.score, a.score_fb||'', a.score_impr||[], a.score_llm||''); }
+    catch { document.getElementById('scorePanel').classList.add('hidden'); }
+  } else { document.getElementById('scorePanel').classList.add('hidden'); }
+  switchTab('editor');
+}
+
+function getForm() {
+  return {
+    id: curId,
+    title:    val('fTitle'),
+    slug:     val('fSlug'),
+    excerpt:  val('fExcerpt'),
+    content:  document.getElementById('ce').value,
+    category: document.getElementById('fCat').value,
+    tags:     val('fTags'),
+    author:   val('fAuthor'),
+    date:     document.getElementById('fDate').value,
+    status:   document.getElementById('fStatus').value,
+  };
+}
+
+function saveArt() {
+  loadAll();
+  if (!curId) { newArticle(); return; }
+  const d = getForm();
+  const i = articles.findIndex(a=>a.id===curId);
+  if (i===-1) return;
+  articles[i] = {...articles[i], ...d};
+  saveArts(); renderList();
+  setStatus('💾 Uloženo', 'ok', 1400);
+}
+
+function delArt() {
+  if (!curId || !confirm('Smazat tento článek?')) return;
+  loadAll();
+  articles = articles.filter(a=>a.id!==curId);
+  curId=null; saveArts(); renderList();
+  clearForm();
+  document.getElementById('scorePanel').classList.add('hidden');
+  gaEvent('article_delete');
+}
+
+function clearForm() {
+  ['fTitle','fSlug','fExcerpt','fTags'].forEach(id=>set(id,''));
+  set('fAuthor','Rap Reportér');
+  document.getElementById('ce').value='';
+  document.getElementById('fDate').value=today();
+}
+
+function autoSlug() {
+  set('fSlug', val('fTitle').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-'));
+}
+function updateWC() {
+  const w=document.getElementById('ce').value.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('wc').textContent=w+' slov';
+}
+function ins(b,a) {
+  const ta=document.getElementById('ce'),s=ta.selectionStart,e=ta.selectionEnd,sel=ta.value.substring(s,e);
+  ta.value=ta.value.substring(0,s)+b+sel+a+ta.value.substring(e);
+  ta.selectionStart=s+b.length; ta.selectionEnd=s+b.length+sel.length; ta.focus(); updateWC();
+}
+function insTable() { ins('| Sloupec 1 | Sloupec 2 | Sloupec 3 |\n|---|---|---|\n| Data | Data | Data |\n',''); }
+
+// ═══════════════════════════════════════════════════════════════
+// AI EVALUATION — MULTI-LLM
+// ═══════════════════════════════════════════════════════════════
+const EVAL_PROMPT = (title, cat, content) => `Jsi zkušený český redaktor specializující se na hip-hop a rap kulturu. Ohodnoť článek podle 5 kritérií (každé 0–5 bodů):
+
+1. Gramatika a jazyková správnost (pravopis, interpunkce, větná stavba v češtině)
+2. Konzistentní tón a styl (jednotný hlas, bez náhodných přechodů mezi formálním a hovorovým)
+3. Poutavost (silný hook, čtenář chce číst dál, živý styl)
+4. Pravdivost a faktická přesnost (ověřitelná fakta, žádné vymyšlené citáty)
+5. Celkové podání (editorial hodnota, originalita, přidaná hodnota)
+
+Kategorie: ${cat} | Název: ${title}
+
+Článek:
+---
+${content.slice(0,3500)}
+---
+
+Odpověz VÝHRADNĚ JSON (bez markdown backticks):
+{"scores":{"gramatika":<0-5>,"ton":<0-5>,"poutavost":<0-5>,"pravdivost":<0-5>,"podani":<0-5>},"total":<0-25>,"verdict":"PASS nebo REWRITE","feedback":"<2-4 věty česky>","improvements":["<návrh1>","<návrh2>"]}`;
+
+async function callLLM(prompt) {
+  const llm = selectedLLM;
+  const t0 = Date.now();
+  let result, usedFallback = false;
+
+  try {
+    if (llm === 'gemini-flash' || llm === 'gemini-pro') {
+      const apiKey = keys.gemini || '';
+      if (!apiKey) throw new Error('Chybí Gemini API klíč. Přidej ho v Nastavení → API klíče.');
+      const model = llm === 'gemini-flash' ? 'gemini-2.0-flash' : 'gemini-1.5-pro';
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 1024 } })
+      });
+      const d = await res.json();
+      if (d.error) throw new Error('Gemini: ' + d.error.message);
+      const text = d.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+      result = JSON.parse(text.replace(/```json\n?|\n?```/g,'').trim());
+
+    } else if (llm === 'gpt4o') {
+      const apiKey = keys.openai || '';
+      if (!apiKey) throw new Error('Chybí OpenAI API klíč.');
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+        body: JSON.stringify({ model:'gpt-4o', messages:[{role:'user',content:prompt}], temperature:0.3, response_format:{type:'json_object'} })
+      });
+      const d = await res.json();
+      if (d.error) throw new Error('OpenAI: ' + d.error.message);
+      result = JSON.parse(d.choices[0].message.content);
+
+    } else if (llm === 'claude') {
+      const apiKey = keys.claude || '';
+      if (!apiKey) throw new Error('Chybí Anthropic API klíč.');
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'x-api-key':apiKey, 'anthropic-version':'2023-06-01' },
+        body: JSON.stringify({ model:'claude-3-5-sonnet-20241022', max_tokens:1024, messages:[{role:'user',content:prompt}] })
+      });
+      const d = await res.json();
+      if (d.error) throw new Error('Claude: ' + d.error.message);
+      const text = d.content[0].text;
+      result = JSON.parse(text.replace(/```json\n?|\n?```/g,'').trim());
+
+    } else if (llm === 'ollama') {
+      const base = keys.ollama || 'http://localhost:11434';
+      const res = await fetch(`${base}/api/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model:'llama3', prompt, stream:false })
+      });
+      const d = await res.json();
+      result = JSON.parse((d.response||'{}').replace(/```json\n?|\n?```/g,'').trim());
+
+    } else {
+      // Base44 fallback — uses messaging credits
+      usedFallback = true;
+      const res = await fetch(keys.b44_url || 'https://soul-goodman-copy-8d1113da.base44.app/functions/evaluateArticle', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ title: prompt.split('|')[1]?.replace('Název:','').trim()||'', category:'', content: '' })
+      });
+      result = await res.json();
+      sessionMsg += 1;
+      updateCreditBar();
+    }
+  } catch(e) {
+    throw e;
+  }
+
+  const elapsed = ((Date.now()-t0)/1000).toFixed(1);
+  return { result, elapsed, usedFallback, llmName: LLMS.find(l=>l.id===llm)?.name || llm };
+}
+
+async function evalArt() {
+  const d = getForm();
+  if (d.content.length < 100) { setStatus('❌ Článek je příliš krátký', 'err', 3000); return; }
+  setStatus('<span class="spinner"></span> AI hodnotí...', 'ld');
+  try {
+    const prompt = EVAL_PROMPT(d.title, d.category, d.content);
+    const { result: r, elapsed, llmName } = await callLLM(prompt);
+    if (r.error) throw new Error(r.error);
+
+    saveArt();
+    loadAll();
+    const i = articles.findIndex(a=>a.id===curId);
+    if (i!==-1) {
+      articles[i].score = r.total;
+      articles[i].score_bd = JSON.stringify(r.scores||{});
+      articles[i].score_fb = r.feedback||'';
+      articles[i].score_impr = r.improvements||[];
+      articles[i].score_llm = llmName;
+      saveArts(); renderList();
+    }
+
+    // Log credit
+    logCredit(d.title, llmName, 'Hodnocení', 0);
+    showScore(r.scores||{}, r.total, r.feedback||'', r.improvements||[], llmName);
+    document.getElementById('scoreCost').textContent = `⏱ ${elapsed}s · LLM: ${llmName} · Msg kredity: 0`;
+    setStatus(`${r.verdict==='PASS'?'✅':'⚠️'} ${r.total}/25 — ${r.verdict} (${elapsed}s)`, r.verdict==='PASS'?'ok':'err', 5000);
+    gaEvent('article_evaluated', { score: r.total, verdict: r.verdict, llm: selectedLLM });
+  } catch(e) { setStatus('❌ ' + e.message, 'err', 5000); }
+}
+
+function showScore(scores, total, feedback, improvements=[], llmName='') {
+  document.getElementById('scorePanel').classList.remove('hidden');
+  const tel = document.getElementById('scoreTotal');
+  tel.textContent = total+'/25';
+  tel.style.color = total>=20?'#16a34a':'#dc2626';
+  document.getElementById('scoreFeedback').textContent = feedback;
+  document.getElementById('scoreLLM').textContent = llmName;
+  const v = total>=20?'PASS':'REWRITE';
+  const vel = document.getElementById('scoreVerdict');
+  vel.textContent = v==='PASS'?'✅ PASS':'⚠️ REWRITE';
+  vel.className = 'hd '+(v==='PASS'?'vp':'vr');
+  const lbls = {gramatika:'Gram.',ton:'Tón',poutavost:'Poutav.',pravdivost:'Pravd.',podani:'Podání'};
+  document.getElementById('scoreGrid').innerHTML = Object.entries(lbls).map(([k,l])=>{
+    const v2=scores[k]??'—';
+    const c=typeof v2==='number'?(v2>=4?'#16a34a':v2>=3?'#ca8a04':'#dc2626'):'#000';
+    return `<div class="si"><div class="sv" style="color:${c}">${v2}</div><div class="sl">${l}</div></div>`;
+  }).join('');
+  document.getElementById('scoreImpr').innerHTML = improvements.length
+    ? '<b style="font-size:.76rem;text-transform:uppercase">Návrhy:</b><ul style="padding-left:1.1rem;margin-top:.25rem">'+improvements.map(i=>`<li>${i}</li>`).join('')+'</ul>' : '';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GITHUB PUBLISH (přímé volání, bez Base44 proxy)
+// ═══════════════════════════════════════════════════════════════
+async function pubGH() {
+  saveArt();
+  const d = getForm();
+  if (!d.slug || !d.content) { setStatus('❌ Chybí slug nebo obsah', 'err', 3000); return; }
+
+  const ghToken = keys.gh_token || '';
+  const repo    = keys.gh_repo   || 'Peter-Pix/czech-rap-media';
+  const branch  = keys.gh_branch || 'main';
+  const cPath   = keys.gh_path   || 'content/articles';
+
+  if (!ghToken) { setStatus('❌ Chybí GitHub Token — přidej ho v Nastavení', 'err', 4000); return; }
+  if (!confirm(`Publikovat "${d.title}" → ${repo}?`)) return;
+
+  setStatus('<span class="spinner"></span> Commituju na GitHub...', 'ld');
+  try {
+    const tags = d.tags.split(',').map(t=>t.trim()).filter(Boolean);
+    const date = d.date || today();
+    const filePath = `${cPath}/${date}-${d.slug}.mdx`;
+    const mdx = `---\ntitle: "${d.title}"\nslug: "${d.slug}"\nexcerpt: "${d.excerpt}"\ndate: "${date}"\ntags: ${JSON.stringify(tags)}\ncategory: "${d.category}"\ncoverImage: "/images/cover.jpg"\nauthor: "${d.author}"\npublished: true\n---\n\n${d.content}`;
+
+    // Check existing sha
+    let sha;
+    const checkRes = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`, {
+      headers: { Authorization: `Bearer ${ghToken}`, Accept: 'application/vnd.github+json' }
+    });
+    if (checkRes.ok) sha = (await checkRes.json()).sha;
+
+    // Encode
+    const encoded = btoa(unescape(encodeURIComponent(mdx)));
+    const body = { message: `feat(content): add rap article - ${d.title}`, content: encoded, branch };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+      method: 'PUT',
+      headers: { Authorization:`Bearer ${ghToken}`, 'Content-Type':'application/json', Accept:'application/vnd.github+json' },
+      body: JSON.stringify(body)
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.text();
+      throw new Error(`GitHub ${putRes.status}: ${err.slice(0,200)}`);
+    }
+
+    const res = await putRes.json();
+    loadAll();
+    const i = articles.findIndex(a=>a.id===curId);
+    if (i!==-1) { articles[i].status='publikováno'; articles[i].github_committed=true; articles[i].github_sha=res.content?.sha; saveArts(); renderList(); }
+    document.getElementById('fStatus').value='publikováno';
+
+    logCredit(d.title, 'GitHub API', 'Publikování', 0);
+    setStatus('✅ Publikováno → ' + filePath, 'ok', 6000);
+    gaEvent('article_published', { slug: d.slug, category: d.category });
+  } catch(e) { setStatus('❌ ' + e.message, 'err', 6000); }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EXPORT MDX
+// ═══════════════════════════════════════════════════════════════
+function exportMdx() {
+  saveArt();
+  const d = getForm();
+  const date = d.date || today();
+  const tags = d.tags.split(',').map(t=>t.trim()).filter(Boolean);
+  const mdx = `---\ntitle: "${d.title}"\nslug: "${d.slug}"\nexcerpt: "${d.excerpt}"\ndate: "${date}"\ntags: ${JSON.stringify(tags)}\ncategory: "${d.category}"\ncoverImage: "/images/cover.jpg"\nauthor: "${d.author}"\npublished: true\n---\n\n${d.content}`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([mdx],{type:'text/plain'}));
+  a.download = `${date}-${d.slug}.mdx`;
+  a.click();
+  logCredit(d.title, 'local', 'Export .mdx', 0);
+  setStatus('⬇️ ' + a.download, 'ok', 2000);
+  gaEvent('article_exported', { slug: d.slug });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// IMPORT MDX
+// ═══════════════════════════════════════════════════════════════
+function handleFI(e) { if (e.target.files[0]) readMdx(e.target.files[0]); }
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZ').style.background='#fff';
+  if (e.dataTransfer.files[0]) readMdx(e.dataTransfer.files[0]);
+}
+function readMdx(file) {
+  const r = new FileReader();
+  r.onload = e => {
+    const raw = e.target.result;
+    importedData = parseFM(raw);
+    document.getElementById('importContent').textContent = raw.slice(0,2800)+(raw.length>2800?'\n[...]':'');
+    document.getElementById('importPrev').classList.remove('hidden');
+    document.getElementById('importScore').classList.add('hidden');
+    setStatus('📥 '+file.name, 'ok', 2000);
+    gaEvent('article_imported');
+  };
+  r.readAsText(file,'utf-8');
+}
+function parseFM(raw) {
+  const m = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  if (!m) return { content: raw };
+  const fm = {};
+  for (const line of m[1].split('\n')) {
+    const c = line.indexOf(':'); if(c===-1) continue;
+    const k=line.slice(0,c).trim(); let v=line.slice(c+1).trim();
+    if(v.startsWith('"')&&v.endsWith('"')) v=v.slice(1,-1);
+    if(v.startsWith("'")&&v.endsWith("'")) v=v.slice(1,-1);
+    fm[k]=v;
+  }
+  return {...fm, content:m[2]};
+}
+function applyImport() {
+  if (!importedData) return;
+  if (!curId) newArticle();
+  set('fTitle', importedData.title||'');
+  set('fSlug',  importedData.slug||'');
+  set('fExcerpt', importedData.excerpt||'');
+  if (importedData.category) document.getElementById('fCat').value = importedData.category;
+  set('fTags', importedData.tags||'');
+  set('fAuthor', importedData.author||'Rap Reportér');
+  if (importedData.date) document.getElementById('fDate').value = importedData.date;
+  document.getElementById('ce').value = importedData.content||'';
+  saveArt(); updateWC(); switchTab('editor');
+  setStatus('✅ Importováno', 'ok', 2000);
+}
+async function evalImported() {
+  if (!importedData) return;
+  setStatus('<span class="spinner"></span> Hodnotím importovaný článek...', 'ld');
+  try {
+    const prompt = EVAL_PROMPT(importedData.title||'', importedData.category||'', importedData.content||'');
+    const { result: r, elapsed, llmName } = await callLLM(prompt);
+    const panel = document.getElementById('importScore');
+    panel.classList.remove('hidden');
+    panel.innerHTML = `<div style="font-family:'Archivo Black',sans-serif;font-size:.83rem;text-transform:uppercase;margin-bottom:.45rem">AI hodnocení importu (${llmName})</div>
+      <div style="font-family:'Archivo Black',sans-serif;font-size:1.9rem;color:${r.total>=20?'#16a34a':'#dc2626'}">${r.total}/25 — ${r.verdict}</div>
+      <p style="font-size:.88rem;font-weight:600;margin-top:.45rem;line-height:1.6">${r.feedback||''}</p>`;
+    setStatus(`${r.verdict==='PASS'?'✅':'⚠️'} Import: ${r.total}/25 (${elapsed}s)`, r.verdict==='PASS'?'ok':'err', 4000);
+  } catch(e) { setStatus('❌ '+e.message, 'err', 4000); }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PREVIEW
+// ═══════════════════════════════════════════════════════════════
+function renderPrev() {
+  const content = document.getElementById('ce').value;
+  const title   = val('fTitle');
+  document.getElementById('prevArea').innerHTML =
+    `<h1 style="font-family:'Archivo Black',sans-serif;font-size:1.9rem;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:1.1rem;line-height:1.05">${title}</h1>`+md2html(content);
+}
+function md2html(md) {
+  return md
+    .replace(/\|(.+)\|\n\|[-| :]+\|\n((?:\|.+\|\n?)*)/g,(_,h,rows)=>{
+      const ths=h.split('|').filter(c=>c.trim()).map(c=>`<th>${c.trim()}</th>`).join('');
+      const trs=rows.trim().split('\n').map(row=>`<tr>${row.split('|').filter(c=>c.trim()).map(c=>`<td>${c.trim()}</td>`).join('')}</tr>`).join('');
+      return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+    })
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^---$/gm,'<hr>')
+    .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/^- (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g,m=>`<ul>${m}</ul>`)
+    .replace(/^(?!<[htulbr])(.+)$/gm,'<p>$1</p>');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COMPARE
+// ═══════════════════════════════════════════════════════════════
+function populateCmp() {
+  loadAll();
+  const opts = articles.map(a=>`<option value="${a.id}">${a.title||'(bez názvu)'}</option>`).join('');
+  document.getElementById('cmpA').innerHTML = opts;
+  document.getElementById('cmpB').innerHTML = opts;
+  if (curId) document.getElementById('cmpA').value = curId;
+}
+async function runCmp() {
+  const idA=document.getElementById('cmpA').value, idB=document.getElementById('cmpB').value;
+  if (!idA||!idB||idA===idB) { setStatus('❌ Vyber dvě různé články','err',2000); return; }
+  loadAll();
+  const a=articles.find(x=>x.id===idA), b=articles.find(x=>x.id===idB);
+  setStatus('<span class="spinner"></span> Porovnávám...','ld');
+  const score = async (art) => {
+    if (art.score!=null) return {total:art.score,scores:JSON.parse(art.score_bd||'{}'),feedback:art.score_fb||''};
+    try {
+      const { result } = await callLLM(EVAL_PROMPT(art.title,art.category,art.content));
+      return result;
+    } catch { return {total:0,scores:{},feedback:'Chyba'}; }
+  };
+  const [sA,sB] = await Promise.all([score(a),score(b)]);
+  const el=document.getElementById('cmpResult');
+  el.classList.remove('hidden');
+  el.innerHTML = cpPanel(a.title,sA,'A')+cpPanel(b.title,sB,'B');
+  setStatus('✅ Porovnání hotovo','ok',2000);
+  gaEvent('articles_compared');
+}
+function cpPanel(title,score,label) {
+  const t=score.total||0,pct=(t/25*100).toFixed(0),c=t>=20?'#16a34a':t>=15?'#ca8a04':'#dc2626';
+  const lbls={gramatika:'Gram.',ton:'Tón',poutavost:'Poutav.',pravdivost:'Pravd.',podani:'Podání'};
+  const bars=Object.entries(lbls).map(([k,l])=>{
+    const v=(score.scores||{})[k]??0;
+    return `<div class="cl"><span>${l}</span><span>${v}/5</span></div><div class="cb"><div class="cf" style="width:${v/5*100}%;background:${v>=4?'#16a34a':v>=3?'#FFD800':'#FF4A4A'}"></div></div>`;
+  }).join('');
+  return `<div class="cp"><div class="ct">${label}: ${title||'?'}</div><div class="cps" style="color:${c}">${t}/25</div><div style="width:100%;height:10px;background:#eee;border:2px solid #000;margin:.35rem 0"><div style="width:${pct}%;height:100%;background:${c}"></div></div>${bars}<p style="font-size:.78rem;font-weight:600;color:#444;margin-top:.55rem;line-height:1.5">${score.feedback||''}</p></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CREDIT LOGGING
+// ═══════════════════════════════════════════════════════════════
+function logCredit(title, llm, action, msgCredits) {
+  loadAll();
+  credits.push({ id: Date.now(), title: title||'?', llm, action, msg: msgCredits, time: new Date().toLocaleString('cs-CZ') });
+  saveCreds();
+  renderCreditTable();
+  updateCreditBar();
+}
+
+function renderCreditTable() {
+  loadAll();
+  const el = document.getElementById('creditTable');
+  if (!el) return;
+  if (credits.length===0) { el.innerHTML='<div style="padding:1rem;font-size:.83rem;color:#888;font-weight:600">Žádné záznamy.</div>'; return; }
+  el.innerHTML = [...credits].reverse().map(c=>`
+    <div class="cl-row">
+      <span title="${c.title}">${c.title.slice(0,30)}${c.title.length>30?'…':''}</span>
+      <span style="font-size:.72rem">${c.llm}</span>
+      <span>${c.action}</span>
+      <span style="color:${c.msg>0?'#dc2626':'#16a34a'}">${c.msg}</span>
+      <span style="font-size:.7rem;color:#888">${c.time}</span>
+    </div>`).join('');
+
+  // Summary
+  const totalMsg = credits.reduce((s,c)=>s+c.msg,0);
+  const byLLM = {};
+  credits.forEach(c=>{ byLLM[c.llm]=(byLLM[c.llm]||0)+1; });
+  const topLLM = Object.entries(byLLM).sort((a,b)=>b[1]-a[1])[0];
+  const pub = credits.filter(c=>c.action==='Publikování').length;
+  const smry = [
+    { label:'Celkem akcí',  val: credits.length,          color:'#000' },
+    { label:'Msg kredity',  val: totalMsg,                 color: totalMsg>0?'#dc2626':'#16a34a' },
+    { label:'Publikováno',  val: pub,                      color:'#6366f1' },
+    { label:'Top LLM',      val: topLLM?topLLM[0]:'—',    color:'#ca8a04' },
+  ];
+  document.getElementById('creditSummary').innerHTML = smry.map(s=>`
+    <div style="border:4px solid #000;background:#fff;padding:.65rem;text-align:center">
+      <div style="font-family:'Archivo Black',sans-serif;font-size:1.3rem;color:${s.color}">${s.val}</div>
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;margin-top:.15rem">${s.label}</div>
+    </div>`).join('');
+}
+
+function updateCreditBar() {
+  const totalMsg = credits.reduce((s,c)=>s+c.msg,0);
+  document.getElementById('creditBar').textContent = `💳 ${totalMsg} msg kr. · ${credits.length} akcí`;
+}
+
+function exportCredits() {
+  loadAll();
+  const csv = 'Článek,LLM,Akce,Msg kredity,Čas\n' +
+    credits.map(c=>`"${c.title}","${c.llm}","${c.action}",${c.msg},"${c.time}"`).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = `4rapgen-credits-${today()}.csv`;
+  a.click();
+}
+
+function clearCredits() {
+  if (!confirm('Vymazat celý credit log?')) return;
+  credits=[]; saveCreds(); renderCreditTable(); updateCreditBar();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════════════════════
+function switchTab(name) {
+  const names=['editor','preview','import','compare','credits','settings'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
+  document.querySelectorAll('.tc').forEach(tc=>tc.classList.remove('active'));
+  const el=document.getElementById('tab-'+name);
+  if(el) el.classList.add('active');
+  if(name==='preview') renderPrev();
+  if(name==='compare') populateCmp();
+  if(name==='credits') renderCreditTable();
+  if(name==='settings') { renderLLMGrid(); fillSettings(); }
+  gaEvent('tab_switch', { tab: name });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATUS
+// ═══════════════════════════════════════════════════════════════
+let stTimer;
+function setStatus(msg,type='',dur=0) {
+  const b=document.getElementById('statusBar');
+  b.innerHTML=msg; b.className='stbar '+(type==='ok'?'ok':type==='err'?'err':type==='ld'?'ld':'');
+  b.classList.remove('hidden');
+  clearTimeout(stTimer);
+  if(dur) stTimer=setTimeout(()=>b.classList.add('hidden'),dur);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════════════
+function val(id) { return document.getElementById(id)?.value?.trim()||''; }
+function set(id,v) { const el=document.getElementById(id); if(el) el.value=v; }
+</script>
+</body>
+</html>
