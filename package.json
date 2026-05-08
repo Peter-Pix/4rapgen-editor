@@ -1,0 +1,9 @@
+{
+  "name": "4rapgen-editor",
+  "version": "1.0.0",
+  "description": "4RAP.GEN — Czech rap article editor",
+  "scripts": {
+    "build": "echo 'Static site, no build needed'",
+    "start": "npx serve ."
+  }
+}
